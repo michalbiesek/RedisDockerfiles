@@ -1,0 +1,13 @@
+FROM ubuntu:18.04
+
+RUN apt update -y && \
+    apt install -y gcc gdb automake autoconf libtool make wget && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN cd /tmp && wget http://download.redis.io/releases/redis-6.0.9.tar.gz -O redis.tar.gz \
+    && tar -zxvf redis.tar.gz \
+    && cd redis-6.0.9 && make noopt \
+    && cp ./src/redis-server /bin/ \
+    && cp ./src/redis-cli /bin/ \
+    && rm -rf redis.tar.gz && rm -rf redis-6.0.9
